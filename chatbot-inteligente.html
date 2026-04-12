@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1807.studio - Chatbot Inteligente de Compras</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B4513;
+            --secondary: #D2691E;
+            --accent: #FF6B6B;
+            --bg: #FAF3F0;
+            --text: #2C2C2C;
+            --light: #ffffff;
+            --gray: #E0E0E0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                gap: 0;
+            }
+
+            .chatbox {
+                height: 500px;
+                border-radius: 10px;
+            }
+
+            .products-panel {
+                height: 400px;
+                padding: 15px;
+                border-radius: 10px;
+            }
+
+            .chatbox-header h2 {
+                font-size: 1.2rem;
+            }
+
+            .chatbox-header p {
+                font-size: 0.8rem;
+            }
+
+            .products-panel h3 {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+
+            .product-card {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .product-image {
+                height: 120px;
+                font-size: 2.5rem;
+            }
+
+            .message-bubble {
+                max-width: 90%;
+                padding: 10px 12px;
+                font-size: 0.95rem;
+            }
+
+            .chatbox-input input {
+                font-size: 16px; /* Previene zoom en iOS */
+                padding: 8px 12px;
+            }
+
+            .chatbox-input button {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            body {
+                padding: 5px;
+                display: flex;
+                align-items: flex-start;
+                min-height: auto;
+            }
+
+            .chatbox {
+                height: 60vh;
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+
+            .products-panel {
+                height: 40vh;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                border-radius: 8px;
+                padding: 10px;
+            }
+
+            .chatbox-header {
+                padding: 12px;
+            }
+
+            .chatbox-header h2 {
+                font-size: 1rem;
+                margin-bottom: 3px;
+            }
+
+            .chatbox-header p {
+                font-size: 0.7rem;
+            }
+
+            .chatbox-messages {
+                padding: 12px;
+                gap: 8px;
+            }
+
+            .message-bubble {
+                max-width: 95%;
+                padding: 8px 10px;
+                font-size: 0.9rem;
+                border-radius: 12px;
+            }
+
+            .chatbox-input {
+                padding: 10px;
+                gap: 8px;
+            }
+
+            .chatbox-input input {
+                font-size: 16px;
+                padding: 8px 10px;
+                border-radius: 20px;
+            }
+
+            .chatbox-input button {
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+                flex-shrink: 0;
+            }
+
+            .products-panel h3 {
+                font-size: 1rem;
+                margin-bottom: 8px;
+            }
+
+            .product-card {
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 8px;
+            }
+
+            .product-image {
+                height: 100px;
+                font-size: 2rem;
+                margin-bottom: 8px;
+            }
+
+            .product-name {
+                font-size: 0.95rem;
+                margin-bottom: 3px;
+            }
+
+            .product-price {
+                font-size: 1.1rem;
+                margin-bottom: 3px;
+            }
+
+            .product-desc {
+                font-size: 0.8rem;
+                margin-bottom: 5px;
+            }
+
+            .product-stock {
+                font-size: 0.8rem;
+            }
+
+            /* QR MODAL - Mobile First */
+            .qr-content {
+                max-width: 90vw;
+                padding: 20px;
+                border-radius: 12px;
+            }
+
+            .qr-content h3 {
+                font-size: 1.1rem;
+            }
+
+            .qr-content img {
+                max-width: 250px;
+                margin: 15px 0;
+            }
+
+            .qr-content .amount {
+                font-size: 1.3rem;
+            }
+
+            .qr-close {
+                padding: 10px 15px;
+                font-size: 0.95rem;
+                border-radius: 5px;
+                width: 100%;
+            }
+
+            /* Status bar mobile */
+            .status-bar {
+                font-size: 0.85rem;
+                padding: 8px 15px;
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Touchscreen optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .product-card:hover {
+                transform: none;
+            }
+
+            .product-card:active {
+                border-color: var(--primary);
+                background: #f0ebe8;
+            }
+
+            .message-bubble {
+                user-select: text;
+                -webkit-user-select: text;
+            }
+
+            button {
+                -webkit-touch-callout: none;
+            }
+        }
+
+        /* Landscape mobile */
+        @media (max-width: 900px) and (orientation: landscape) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .chatbox,
+            .products-panel {
+                height: auto;
+                max-height: 85vh;
+            }
+        }
+
+        /* CHATBOX */
+        .chatbox {
+            background: var(--light);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .chatbox-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--light);
+            padding: 20px;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .chatbox-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .chatbox-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .chatbox-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 10px;
+            animation: messageSlide 0.3s ease-out;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 15px;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+
+        .bot .message-bubble {
+            background: var(--gray);
+            color: var(--text);
+            border-bottom-left-radius: 3px;
+        }
+
+        .user .message-bubble {
+            background: var(--primary);
+            color: var(--light);
+            border-bottom-right-radius: 3px;
+        }
+
+        .chatbox-input {
+            display: flex;
+            padding: 15px;
+            background: var(--light);
+            border-top: 1px solid var(--gray);
+            gap: 10px;
+        }
+
+        .chatbox-input input {
+            flex: 1;
+            border: 2px solid var(--gray);
+            border-radius: 25px;
+            padding: 10px 15px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .chatbox-input input:focus {
+            border-color: var(--primary);
+        }
+
+        .chatbox-input button {
+            background: var(--primary);
+            color: var(--light);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbox-input button:hover {
+            background: var(--secondary);
+        }
+
+        /* PANEL DE PRODUCTOS */
+        .products-panel {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            height: 600px;
+        }
+
+        .products-panel h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .product-card {
+            background: var(--bg);
+            border: 2px solid var(--gray);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card-inline {
+            width: calc(50% - 5px);
+            display: inline-flex;
+            flex-direction: column;
+            align-items: stretch;
+            margin-bottom: 10px;
+        }
+
+        .product-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .product-number {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: var(--text);
+            font-weight: bold;
+        }
+
+        .product-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            font-size: 3rem;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .product-name {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .product-stock {
+            font-size: 0.85rem;
+            color: var(--secondary);
+        }
+
+        /* QR MODAL */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .qr-modal.show {
+            display: flex;
+        }
+
+        .qr-content {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .qr-content h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .qr-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 3px solid var(--primary);
+        }
+
+        .qr-content p {
+            color: var(--text);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .qr-content .amount {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .qr-close {
+            background: var(--primary);
+            color: var(--light);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .qr-close:hover {
+            background: var(--secondary);
+        }
+
+        .qr-download {
+            background: #4b2e1c;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 5px 0 0;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .qr-download:hover {
+            background: #6b4729;
+        }
+
+        /* BARRA DE ESTADO */
+        .status-bar {
+            background: var(--primary);
+            color: var(--light);
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .status-bar.success {
+            background: #2ecc71;
+        }
+
+        .status-bar.error {
+            background: var(--accent);
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER DE NAVEGACIÓN SUPERIOR -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="header-title">
+                <a href="index.html" class="logo-link">🛍️ 1807.studio</a>
+            </div>
+            <div class="header-nav">
+                <button class="nav-btn" onclick="togglePanel()" title="Mostrar/Ocultar productos">
+                    📦 Productos
+                </button>
+                <button class="nav-btn" onclick="location.href='login.html'" title="Volver al inicio">
+                    🏠 Inicio
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- CHATBOX -->
+        <div class="chatbox">
+            <div class="chatbox-header">
+                <h2>💬 Chat</h2>
+                <p>Asistente de Compras</p>
+            </div>
+            <div id="chatMessages" class="chatbox-messages">
+                <!-- Los mensajes aparecerán aquí -->
+            </div>
+            <div class="chatbox-input">
+                <input type="text" id="userInput" placeholder="Escribe tu mensaje..." autocomplete="off">
+                <button onclick="enviarMensaje()">➤</button>
+            </div>
+        </div>
+
+        <!-- PANEL LATERAL -->
+        <div class="products-panel" id="productsPanel">
+            <div class="panel-close-btn" onclick="togglePanel()" title="Cerrar">✕</div>
+            <h3>📦 Productos Disponibles</h3>
+            <div id="productsList">
+                <!-- Los productos cargados aparecerán aquí -->
+            </div>
+        </div>
+    </div>
+
+    <!-- QR MODAL -->
+    <div id="qrModal" class="qr-modal">
+        <div class="qr-content">
+            <h3>💳 CÓDIGO QR DE PAGO</h3>
+            <p>Escanea para completar el pago</p>
+            <img id="qrImage" src="" alt="QR Code">
+            <p class="amount" id="qrAmount">$0.00</p>
+            <p id="qrReference">Referencia: </p>
+            <button class="qr-download" onclick="descargarFactura()">Descargar factura</button>
+            <button class="qr-close" onclick="cerrarQR()">Cerrar</button>
+        </div>
+    </div>
+
+    <style>
+        /* HEADER RESPONSIVE */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--light);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .app-header {
+                display: block;
+            }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 100%;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .header-title {
+            flex: 1;
+        }
+
+        .logo-link {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 5px;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            color: var(--light);
+            border: 1px solid var(--light);
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            transition: all 0.2s;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .nav-btn:active {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* PANEL CLOSE BUTTON */
+        .panel-close-btn {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            align-items: center;
+            justify-content: center;
+            z-index: 101;
+        }
+
+        .products-panel {
+            position: relative;
+        }
+
+        @media (max-width: 480px) {
+            .products-panel {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                max-height: 50vh;
+                transform: translateY(100%);
+                transition: transform 0.3s ease;
+                border-radius: 12px 12px 0 0;
+                z-index: 90;
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .products-panel.show {
+                transform: translateY(0);
+            }
+
+            .panel-close-btn {
+                display: flex;
+            }
+        }
+
+        body.panel-open {
+            overflow: hidden;
+        }
+    </style>
+
+    <script type="module">
+        import { procesarMensajeChatbot, initChatbotV2, conversationState } from './chatbot-v2.js';
+        import { getProducts } from './supabase.js';
+
+        // Variables globales
+        let chatHistorial = [];
+        let productos = [];
+
+        // Inicializar
+        window.addEventListener('load', async () => {
+            console.log('🚀 Inicializando Chat Inteligente...');
+            initChatbotV2();
+            await cargarProductos();
+            mostrarSaludo();
+            mostrarProductosEnChat();
+        });
+
+        // Cargar productos
+        async function cargarProductos() {
+            try {
+                const res = await getProducts();
+                if (res.success) {
+                    productos = res.data;
+                    mostrarProductos();
+                }
+            } catch (error) {
+                console.error('Error cargando productos:', error);
+            }
+        }
+
+        // Mostrar productos en panel lateral
+        function mostrarProductos() {
+            const lista = document.getElementById('productsList');
+            lista.innerHTML = '';
+
+            productos.forEach((producto, index) => {
+                if (producto.stock > 0) {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <div class="product-image">
+                            <img src="${producto.imagen_url || producto.image || 'https://via.placeholder.com/240x180?text=Producto'}" alt="${escapeHtml(producto.nombre)}" onerror="this.src='https://via.placeholder.com/240x180?text=Producto'">
+                        </div>
+                        <div class="product-name">${escapeHtml(producto.nombre)}</div>
+                        <div class="product-price">$${producto.precio.toFixed(2)}</div>
+                        <div class="product-desc">${escapeHtml(producto.descripcion || 'Producto exclusivo')}</div>
+                        <div class="product-stock">📦 Stock: ${producto.stock}</div>
+                    `;
+                    card.onclick = () => seleccionarProducto(index + 1);
+                    lista.appendChild(card);
+                }
+            });
+        }
+
+        function mostrarProductosEnChat() {
+            if (!productos.length) return;
+
+            conversationState.estado = 'seleccionando_producto';
+            conversationState.pedido.tipo = 'compra';
+
+            const container = document.getElementById('chatMessages');
+            const msg = document.createElement('div');
+            msg.className = 'message bot';
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            bubble.innerHTML = `<p>👋 Bienvenid@ a 1807.studio. Elige un producto para comprar:</p>`;
+
+            const cards = document.createElement('div');
+            cards.className = 'product-cards';
+
+            productos.filter(producto => producto.stock > 0).forEach((producto, index) => {
+                const card = document.createElement('div');
+                card.className = 'product-card product-card-inline';
+                card.onclick = () => seleccionarProducto(index + 1);
+                card.innerHTML = `
+                    <div class="product-image">
+                        <img src="${producto.imagen_url || producto.image || 'https://via.placeholder.com/240x180?text=Producto'}" alt="${escapeHtml(producto.nombre)}" onerror="this.src='https://via.placeholder.com/240x180?text=Producto'">
+                    </div>
+                    <div class="product-name">${escapeHtml(producto.nombre)}</div>
+                    <div class="product-price">$${producto.precio.toFixed(2)}</div>
+                    <div class="product-stock">📦 ${producto.stock} disponibles</div>
+                    <div class="product-number">#${index + 1}</div>
+                `;
+                cards.appendChild(card);
+            });
+
+            bubble.appendChild(cards);
+            const footer = document.createElement('p');
+            footer.textContent = 'Escribe el número del producto que deseas comprar.';
+            bubble.appendChild(footer);
+            msg.appendChild(bubble);
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+            chatHistorial.push({ role: 'bot', content: 'Productos mostrados con fotos' });
+        }
+
+        // Seleccionar producto desde el panel
+        function seleccionarProducto(numero) {
+            const input = document.getElementById('userInput');
+            input.value = numero.toString();
+            enviarMensaje();
+        }
+
+        // Saludo inicial
+        async function mostrarSaludo() {
+            const respuesta = await procesarMensajeChatbot('/start');
+            agregarMensajeBot(respuesta);
+        }
+
+        // Enviar mensaje
+        window.enviarMensaje = async function() {
+            const input = document.getElementById('userInput');
+            const mensaje = input.value.trim();
+
+            if (!mensaje) return;
+
+            // Agregar mensaje del usuario
+            agregarMensajeUsuario(mensaje);
+            input.value = '';
+
+            // Procesar con el chatbot
+            const respuesta = await procesarMensajeChatbot(mensaje);
+            agregarMensajeBot(respuesta);
+
+            if (conversationState.estado === 'esperando_cantidad' && conversationState.productoSeleccionado) {
+                mostrarProductoSeleccionadoEnChat(conversationState.productoSeleccionado);
+            }
+
+            // Si están listos para pagar, mostrar QR
+            if (conversationState.estado === 'completado' && localStorage.getItem('qr_code_actual')) {
+                setTimeout(() => {
+                    mostrarQR();
+                }, 500);
+            }
+        };
+
+        // Agregar mensaje
+        function agregarMensajeUsuario(texto) {
+            const container = document.getElementById('chatMessages');
+            const msg = document.createElement('div');
+            msg.className = 'message user';
+            msg.innerHTML = `<div class="message-bubble">${escapeHtml(texto)}</div>`;
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+            chatHistorial.push({ role: 'user', content: texto });
+        }
+
+        function agregarMensajeBot(texto) {
+            const container = document.getElementById('chatMessages');
+            const msg = document.createElement('div');
+            msg.className = 'message bot';
+            msg.innerHTML = `<div class="message-bubble">${escapeHtml(texto)}</div>`;
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+            chatHistorial.push({ role: 'bot', content: texto });
+        }
+
+        function agregarMensajeBotHTML(html) {
+            const container = document.getElementById('chatMessages');
+            const msg = document.createElement('div');
+            msg.className = 'message bot';
+            msg.innerHTML = `<div class="message-bubble">${html}</div>`;
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+            chatHistorial.push({ role: 'bot', content: 'HTML message' });
+        }
+
+        function mostrarProductoSeleccionadoEnChat(producto) {
+            const container = document.getElementById('chatMessages');
+            const msg = document.createElement('div');
+            msg.className = 'message bot';
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="product-image">
+                    <img src="${producto.imagen_url || producto.image || 'https://via.placeholder.com/240x180?text=Producto'}" alt="${escapeHtml(producto.nombre)}" onerror="this.src='https://via.placeholder.com/240x180?text=Producto'">
+                </div>
+                <div class="product-name">${escapeHtml(producto.nombre)}</div>
+                <div class="product-price">$${producto.precio.toFixed(2)}</div>
+                <div class="product-desc">${escapeHtml(producto.descripcion || 'Sin descripción disponible')}</div>
+                <div class="product-stock">📦 Stock: ${producto.stock}</div>
+            `;
+            bubble.appendChild(card);
+            msg.appendChild(bubble);
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+            chatHistorial.push({ role: 'bot', content: `Producto seleccionado: ${producto.nombre}` });
+        }
+
+        window.descargarFactura = function() {
+            const pedidoData = JSON.parse(localStorage.getItem('ultimo_pedido') || '{}');
+            if (!pedidoData || !pedidoData.referencia) return;
+
+            const invoiceHtml = `<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Factura ${pedidoData.referencia}</title>
+<style>
+body{font-family:Arial,sans-serif;padding:20px;color:#333;background:#fdf8f0}
+header{margin-bottom:20px}
+h1{color:#6b3f00}
+section{margin-top:20px}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid #ddd;padding:10px;text-align:left}
+th{background:#f4f0ea}
+</style>
+</head>
+<body>
+<header>
+<h1>Factura 1807.studio</h1>
+<p>Referencia: ${pedidoData.referencia}</p>
+<p>Fecha: ${new Date().toLocaleString('es-BO')}</p>
+</header>
+<section>
+<h2>Cliente</h2>
+<p>${escapeHtml(pedidoData.cliente_nombre)}</p>
+<p>Tel: +591${escapeHtml(pedidoData.cliente_whatsapp)}</p>
+${pedidoData.cliente_email ? `<p>Email: ${escapeHtml(pedidoData.cliente_email)}</p>` : ''}
+</section>
+<section>
+<h2>Producto</h2>
+<p>${escapeHtml(pedidoData.producto_nombre)}</p>
+<p>Cantidad: ${escapeHtml(String(pedidoData.cantidad))}</p>
+<p>Precio unitario: BOB ${Number(pedidoData.precio).toFixed(2)}</p>
+<p>Total a pagar: BOB ${Number(pedidoData.monto_adelanto).toFixed(2)}</p>
+</section>
+<section>
+<h2>Entrega</h2>
+<p>${pedidoData.lugar_entrega === 'delivery' ? 'Delivery' : 'Retiro en tienda 1807.studio'}</p>
+</section>
+</body>
+</html>`;
+
+            const blob = new Blob([invoiceHtml], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `factura_${pedidoData.referencia}.html`;
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+
+        // Mostrar QR
+        window.mostrarQR = function() {
+            const qrCode = localStorage.getItem('qr_code_actual');
+            if (qrCode) {
+                document.getElementById('qrImage').src = qrCode;
+                document.getElementById('qrAmount').textContent = `$${conversationState.pedido.monto_adelanto.toFixed(2)}`;
+                document.getElementById('qrReference').textContent = `Referencia: ${conversationState.pedido.referencia || ''}`;
+                document.getElementById('qrModal').classList.add('show');
+            }
+        };
+
+        window.cerrarQR = function() {
+            document.getElementById('qrModal').classList.remove('show');
+        };
+
+        window.openWhatsAppAlert = function(pedido) {
+            const whatsappSeller = '59178810097';
+            const text = encodeURIComponent(`Hola, acabo de confirmar una compra en 1807.studio. Referencia: ${pedido.referencia}. Producto: ${pedido.producto_nombre}. Cliente: ${pedido.cliente_nombre}. Por favor atiéndeme.`);
+            const url = `https://wa.me/${whatsappSeller}?text=${text}`;
+            window.open(url, '_blank');
+        };
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Permitir Enter para enviar
+        document.getElementById('userInput')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                window.enviarMensaje();
+            }
+        });
+
+        // Toggle Panel en móvil
+        window.togglePanel = function() {
+            const panel = document.getElementById('productsPanel');
+            const body = document.body;
+            
+            panel.classList.toggle('show');
+            body.classList.toggle('panel-open');
+        };
+
+        // Cerrar panel al hacer click en un producto
+        const originalSeleccionar = window.seleccionarProducto;
+        window.seleccionarProducto = function(numero) {
+            originalSeleccionar.call(this, numero);
+            // Cerrar el panel después de seleccionar
+            const panel = document.getElementById('productsPanel');
+            if (panel.classList.contains('show')) {
+                window.togglePanel();
+            }
+        };
+
+        // Hacer scroll automático del chatbox
+        function scrollChatToBottom() {
+            const container = document.getElementById('chatMessages');
+            setTimeout(() => {
+                container.scrollTop = container.scrollHeight;
+            }, 100);
+        }
+
+        // Observar cambios en mensajes para scroll automático
+        const chatContainer = document.getElementById('chatMessages');
+        new MutationObserver(scrollChatToBottom).observe(chatContainer, { childList: true });
+    </script>
+</body>
+
+</html>

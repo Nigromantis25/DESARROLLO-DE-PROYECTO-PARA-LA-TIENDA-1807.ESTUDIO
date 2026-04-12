@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>1807.studio - Admin Vault</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #8B4513;
+            --secondary: #D2691E;
+            --accent: #FF6B6B;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --bg: #FAF3F0;
+            --dark-bg: #2C2C2C;
+            --text: #2C2C2C;
+            --light: #ffffff;
+            --border: #E0E0E0;
+            --shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ============================================ */
+        /* HEADER */
+        /* ============================================ */
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--light);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: var(--light);
+            padding: 0.5rem 0.75rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .icon-btn:active {
+            background: rgba(255,255,255,0.4);
+        }
+
+        /* ============================================ */
+        /* CONTAINER */
+        /* ============================================ */
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* ============================================ */
+        /* TABS */
+        /* ============================================ */
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-btn {
+            background: var(--light);
+            border: 2px solid var(--border);
+            color: var(--text);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .tab-btn:active {
+            transform: scale(0.98);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: var(--light);
+            border-color: var(--primary);
+        }
+
+        /* ============================================ */
+        /* SECTION */
+        /* ============================================ */
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* ============================================ */
+        /* FORM */
+        /* ============================================ */
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+        /* ============================================ */
+        /* BUTTONS */
+        /* ============================================ */
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--light);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+            background: var(--secondary);
+        }
+
+        .btn-danger {
+            background: var(--accent);
+            color: var(--light);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--light);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-group .btn {
+            flex: 1;
+        }
+
+        /* ============================================ */
+        /* CARDS */
+        /* ============================================ */
+
+        .card {
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .card:active {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.75rem;
+            gap: 0.5rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: var(--primary);
+            word-break: break-word;
+        }
+
+        .card-category {
+            display: inline-block;
+            background: rgba(139, 69, 19, 0.1);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .card-content {
+            margin-bottom: 0.75rem;
+        }
+
+        .card-field {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .card-field-label {
+            color: #999;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-field-value {
+            color: var(--text);
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:active {
+            background: var(--primary);
+            color: var(--light);
+            border-color: var(--primary);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .card-actions button {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background: var(--light);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .card-actions .btn-edit {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .card-actions .btn-delete {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .card-actions button:active {
+            opacity: 0.8;
+        }
+
+        /* ============================================ */
+        /* MODAL */
+        /* ============================================ */
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: flex-end;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--light);
+            width: 100%;
+            max-height: 90vh;
+            border-radius: 20px 20px 0 0;
+            padding: 1.5rem;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        /* ============================================ */
+        /* ALERTS */
+        /* ============================================ */
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .alert-error {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .alert-info {
+            background: rgba(139, 69, 19, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        /* ============================================ */
+        /* EMPTY STATE */
+        /* ============================================ */
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-text {
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ============================================ */
+        /* RESPONSIVE */
+        /* ============================================ */
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 2rem;
+            }
+
+            .modal-content {
+                max-width: 600px;
+                margin: auto;
+                border-radius: 12px;
+                max-height: 80vh;
+            }
+
+            .card-actions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            html {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1rem;
+            }
+
+            .tabs {
+                gap: 0.25rem;
+            }
+
+            .tab-btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.85rem;
+            }
+
+            .btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.95rem;
+            }
+
+            .form-group input {
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+        }
+
+        /* ============================================ */
+        /* UTILITY */
+        /* ============================================ */
+
+        .hidden {
+            display: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+
+        .loading {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 3px solid rgba(139, 69, 19, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-title">
+            🔐 Admin Vault
+        </div>
+        <div class="header-actions">
+            <button class="icon-btn" onclick="location.reload()">⟲</button>
+            <button class="icon-btn" onclick="logout()">⏚</button>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="container">
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('credentials')">🔑 Contraseñas</button>
+            <button class="tab-btn" onclick="switchTab('settings')">⚙️ Configuración</button>
+            <button class="tab-btn" onclick="switchTab('info')">ℹ️ Información</button>
+        </div>
+
+        <!-- SECTION: CREDENTIALS -->
+        <div id="credentials" class="section active">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2>Mis Contraseñas</h2>
+                <button class="btn btn-primary" style="width: auto;" onclick="openAddModal()">+ Agregar</button>
+            </div>
+
+            <div id="credentialsList"></div>
+        </div>
+
+        <!-- SECTION: SETTINGS -->
+        <div id="settings" class="section">
+            <h2 style="margin-bottom: 1rem;">Configuración</h2>
+
+            <div class="card">
+                <div class="form-group">
+                    <label>📱 Nombre del Negocio</label>
+                    <input type="text" id="businessName" placeholder="1807.studio">
+                </div>
+
+                <div class="form-group">
+                    <label>📞 Teléfono Principal</label>
+                    <input type="tel" id="mainPhone" placeholder="+591 78810097">
+                </div>
+
+                <div class="form-group">
+                    <label>📧 Email Principal</label>
+                    <input type="email" id="mainEmail" placeholder="contacto@1807.studio">
+                </div>
+
+                <div class="form-group">
+                    <label>📍 Ubicación</label>
+                    <input type="text" id="location" placeholder="La Paz, Bolivia">
+                </div>
+
+                <button class="btn btn-primary" onclick="saveSettings()">💾 Guardar</button>
+            </div>
+        </div>
+
+        <!-- SECTION: INFO -->
+        <div id="info" class="section">
+            <h2 style="margin-bottom: 1rem;">Información</h2>
+
+            <div class="card">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">📋 Acerca de Admin Vault</h3>
+
+                <div class="card-field">
+                    <div class="card-field-label">Versión</div>
+                    <div class="card-field-value">1.0</div>
+                </div>
+
+                <div class="card-field">
+                    <div class="card-field-label">Almacenamiento</div>
+                    <div class="card-field-value">Supabase PostgreSQL + Encriptación</div>
+                </div>
+
+                <div class="card-field">
+                    <div class="card-field-label">Sincronización</div>
+                    <div class="card-field-value">Automática en todos los dispositivos</div>
+                </div>
+
+                <h3 style="color: var(--primary); margin-top: 1.5rem; margin-bottom: 1rem;">🔒 Seguridad</h3>
+
+                <ul style="margin-left: 1rem; color: #666; line-height: 1.8;">
+                    <li>✅ Base de datos encriptada</li>
+                    <li>✅ Acceso solo para usuarios autenticados</li>
+                    <li>✅ Sincronización en tiempo real</li>
+                    <li>✅ Accesible desde cualquier dispositivo</li>
+                </ul>
+
+                <h3 style="color: var(--primary); margin-top: 1.5rem; margin-bottom: 1rem;">🎯 Características</h3>
+
+                <ul style="margin-left: 1rem; color: #666; line-height: 1.8;">
+                    <li>✓ Guardar contraseñas de forma segura</li>
+                    <li>✓ Organizar por categorías</li>
+                    <li>✓ Copiar contraseñas al portapapeles</li>
+                    <li>✓ Editar credenciales guardadas</li>
+                    <li>✓ Eliminar credenciales</li>
+                    <li>✓ Totalmente responsivo para móvil</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Agregar/Editar Credencial -->
+    <div id="credentialModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Agregar Contraseña</div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div id="modalAlert"></div>
+
+            <div class="form-group">
+                <label>📝 Nombre (ej: Facebook, Gmail)</label>
+                <input type="text" id="credName" placeholder="Nombre del servicio">
+            </div>
+
+            <div class="form-group">
+                <label>👤 Usuario/Email</label>
+                <input type="text" id="credUsername" placeholder="usuario@example.com">
+            </div>
+
+            <div class="form-group">
+                <label>
+                    🔑 Contraseña
+                    <button type="button" onclick="togglePasswordVisibility()" style="float: right; background: none; border: none; cursor: pointer;">👁️</button>
+                </label>
+                <input type="password" id="credPassword" placeholder="Contraseña">
+            </div>
+
+            <div class="form-group">
+                <label>🏷️ Categoría</label>
+                <select id="credCategory">
+                    <option value="general">General</option>
+                    <option value="trabajo">Trabajo</option>
+                    <option value="personal">Personal</option>
+                    <option value="redes-sociales">Redes Sociales</option>
+                    <option value="bancos">Bancos</option>
+                    <option value="emails">Emails</option>
+                </select>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="saveCredential()">💾 Guardar</button>
+                <button class="btn" style="background: var(--border); color: var(--text);" onclick="closeModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { CredentialManager, AdminDataManager } from './admin-vault.js'
+
+        // Instancias globales
+        window.credManager = new CredentialManager()
+        window.adminManager = new AdminDataManager()
+        let currentEditingId = null
+
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+
+        window.addEventListener('load', async () => {
+            // Verificar autenticación
+            const currentUser = JSON.parse(localStorage.getItem('1807_currentUser'))
+            if (!currentUser) {
+                window.location.href = 'login.html'
+                return
+            }
+
+            // Cargar credenciales
+            await loadCredentials()
+
+            // Cargar settings
+            await loadSettings()
+        })
+
+        // ============================================
+        // CREDENCIALES
+        // ============================================
+
+        window.loadCredentials = async function() {
+            const credentials = await window.credManager.getAllCredentials()
+            const container = document.getElementById('credentialsList')
+
+            if (credentials.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔐</div>
+                        <div class="empty-state-text">No tienes contraseñas guardadas</div>
+                        <button class="btn btn-primary" onclick="openAddModal()" style="max-width: 200px;">Agregar una</button>
+                    </div>
+                `
+                return
+            }
+
+            container.innerHTML = credentials.map(cred => `
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">${cred.nombre}</div>
+                            <span class="card-category">${cred.categoria}</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-field">
+                            <div class="card-field-label">Usuario</div>
+                            <div class="card-field-value">${cred.datos?.username || '—'}</div>
+                        </div>
+                        <div class="card-field">
+                            <div class="card-field-label">Contraseña</div>
+                            <div class="card-field-value" style="letter-spacing: 3px;">••••••••</div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-edit" onclick="editCredential('${cred.id}')">✎ Editar</button>
+                        <button class="btn-edit" onclick="copyPassword('${cred.id}')">📋 Copiar</button>
+                        <button class="btn-delete" onclick="deleteCredential('${cred.id}')">🗑 Eliminar</button>
+                    </div>
+                </div>
+            `).join('')
+        }
+
+        window.openAddModal = function() {
+            currentEditingId = null
+            document.getElementById('modalTitle').textContent = '✅ Agregar Contraseña'
+            document.getElementById('credName').value = ''
+            document.getElementById('credUsername').value = ''
+            document.getElementById('credPassword').value = ''
+            document.getElementById('credPassword').type = 'password'
+            document.getElementById('credCategory').value = 'general'
+            document.getElementById('modalAlert').innerHTML = ''
+            document.getElementById('credentialModal').classList.add('show')
+        }
+
+        window.editCredential = async function(id) {
+            const credentials = await window.credManager.getAllCredentials()
+            const cred = credentials.find(c => c.id === id)
+
+            if (!cred) return
+
+            currentEditingId = id
+            document.getElementById('modalTitle').textContent = '✎ Editar Contraseña'
+            document.getElementById('credName').value = cred.nombre
+            document.getElementById('credUsername').value = cred.datos?.username || ''
+            document.getElementById('credPassword').value = cred.datos?.password || ''
+            document.getElementById('credPassword').type = 'password'
+            document.getElementById('credCategory').value = cred.categoria
+            document.getElementById('modalAlert').innerHTML = ''
+            document.getElementById('credentialModal').classList.add('show')
+        }
+
+        window.deleteCredential = async function(id) {
+            if (!confirm('¿Estás seguro de que deseas eliminar esta contraseña?')) return
+
+            const result = await window.credManager.deleteCredential(id)
+            if (result.success) {
+                showAlert('Contraseña eliminada', 'success')
+                await loadCredentials()
+            } else {
+                showAlert('Error al eliminar', 'error')
+            }
+        }
+
+        window.copyPassword = async function(id) {
+            const credentials = await window.credManager.getAllCredentials()
+            const cred = credentials.find(c => c.id === id)
+
+            if (cred?.datos?.password) {
+                await window.credManager.copyToClipboard(cred.datos.password)
+                showAlert('¡Contraseña copiada!', 'success')
+            }
+        }
+
+        window.saveCredential = async function() {
+            const name = document.getElementById('credName').value.trim()
+            const username = document.getElementById('credUsername').value.trim()
+            const password = document.getElementById('credPassword').value
+            const category = document.getElementById('credCategory').value
+
+            if (!name || !username || !password) {
+                showModalAlert('Por favor completa todos los campos', 'error')
+                return
+            }
+
+            let result
+            if (currentEditingId) {
+                result = await window.credManager.updateCredential(
+                    currentEditingId, name, username, password, category
+                )
+            } else {
+                result = await window.credManager.saveCredential(name, username, password, category)
+            }
+
+            if (result.success) {
+                showModalAlert('¡Guardado exitosamente!', 'success')
+                setTimeout(() => {
+                    closeModal()
+                    loadCredentials()
+                }, 1000)
+            } else {
+                showModalAlert('Error al guardar: ' + result.error, 'error')
+            }
+        }
+
+        // ============================================
+        // CONFIGURACIÓN
+        // ============================================
+
+        window.loadSettings = async function() {
+            const result = await window.adminManager.getAllAdminSettings()
+            if (result.success && result.settings) {
+                document.getElementById('businessName').value = result.settings.businessName || ''
+                document.getElementById('mainPhone').value = result.settings.mainPhone || ''
+                document.getElementById('mainEmail').value = result.settings.mainEmail || ''
+                document.getElementById('location').value = result.settings.location || ''
+            }
+        }
+
+        window.saveSettings = async function() {
+            const settings = {
+                businessName: document.getElementById('businessName').value,
+                mainPhone: document.getElementById('mainPhone').value,
+                mainEmail: document.getElementById('mainEmail').value,
+                location: document.getElementById('location').value
+            }
+
+            // Guardar cada setting
+            for (const [key, value] of Object.entries(settings)) {
+                await window.adminManager.saveAdminSetting(key, value)
+            }
+
+            showAlert('Configuración guardada ✅', 'success')
+        }
+
+        // ============================================
+        // UTILIDADES
+        // ============================================
+
+        window.switchTab = function(tabName) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'))
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+
+            document.getElementById(tabName).classList.add('active')
+            event.target.classList.add('active')
+        }
+
+        window.closeModal = function() {
+            document.getElementById('credentialModal').classList.remove('show')
+        }
+
+        window.togglePasswordVisibility = function() {
+            const input = document.getElementById('credPassword')
+            input.type = input.type === 'password' ? 'text' : 'password'
+        }
+
+        window.showAlert = function(message, type = 'info') {
+            const alerts = document.querySelectorAll('.alert')
+            alerts.forEach(a => a.remove())
+
+            const alert = document.createElement('div')
+            alert.className = `alert alert-${type}`
+            alert.textContent = message
+            alert.style.position = 'fixed'
+            alert.style.top = '80px'
+            alert.style.left = '1rem'
+            alert.style.right = '1rem'
+            alert.style.zIndex = '2000'
+
+            document.body.appendChild(alert)
+
+            setTimeout(() => alert.remove(), 3000)
+        }
+
+        window.showModalAlert = function(message, type = 'info') {
+            const container = document.getElementById('modalAlert')
+            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`
+        }
+
+        window.logout = function() {
+            if (confirm('¿Deseas cerrar sesión?')) {
+                localStorage.removeItem('1807_currentUser')
+                window.location.href = 'login.html'
+            }
+        }
+
+        // Cerrar modal al hacer clic afuera
+        document.getElementById('credentialModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal()
+            }
+        })
+    </script>
+</body>
+</html>
