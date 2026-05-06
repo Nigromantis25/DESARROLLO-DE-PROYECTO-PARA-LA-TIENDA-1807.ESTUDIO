@@ -451,6 +451,10 @@
             }
         }
     </style>
+    <script type="module">
+        import { signInUser } from './supabase.js'
+        window._supabaseSignIn = signInUser
+    </script>
 </head>
 
 <body>
@@ -597,23 +601,38 @@
             }
         }
 
-        function handleLogin(e) {
+        async function handleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             const errorEl = document.getElementById('loginError');
 
+            // Intentar iniciar sesión con Supabase si está disponible
+            if (window._supabaseSignIn) {
+                const res = await window._supabaseSignIn(email, password);
+                if (res.success) {
+                    const currentUser = JSON.parse(localStorage.getItem('1807_currentUser') || '{}');
+                    if (currentUser.role === 'admin') {
+                        window.location.href = 'index.html';
+                        return;
+                    } else {
+                        window.location.href = 'tienda.html';
+                        return;
+                    }
+                } else {
+                    // Si Supabase falla, intentar localStorage como respaldo
+                    console.warn('Supabase login failed, falling back to local users:', res.error);
+                }
+            }
+
+            // Fallback: búsqueda en usuarios locales (despliegues locales o datos antiguos)
             const users = JSON.parse(localStorage.getItem('1807_users') || '[]');
             const user = users.find(u => u.email === email && u.password === password);
 
             if (user) {
                 localStorage.setItem('1807_currentUser', JSON.stringify(user));
-
-                // Redirigir según rol
                 if (user.role === 'admin') {
                     window.location.href = 'index.html';
-                } else if (user.role === 'vendedor') {
-                    window.location.href = 'tienda.html';
                 } else {
                     window.location.href = 'tienda.html';
                 }

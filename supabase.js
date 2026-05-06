@@ -42,14 +42,68 @@ export async function signInUser(email, password) {
             password: password
         })
         if (error) throw error
-        
-        // Guardar en localStorage
+        // 1) Intentar leer role desde user_metadata
+        let role = data.user.user_metadata?.role || null
+        const nombreMeta = data.user.user_metadata?.nombre || ''
+
+        // 2) Si no existe role en metadata, intentar consultar tablas comunes en Supabase
+        if (!role) {
+            try {
+                const { data: prof, error: profError } = await supabase
+                    .from('users')
+                    .select('role')
+                    .eq('id', data.user.id)
+                    .single()
+                if (!profError && prof && prof.role) role = prof.role
+            } catch (e) {
+                // tabla 'users' puede no existir; ignore
+            }
+        }
+
+        if (!role) {
+            try {
+                const { data: prof2, error: prof2Error } = await supabase
+                    .from('profiles')
+                    .select('role')
+                    .eq('id', data.user.id)
+                    .single()
+                if (!prof2Error && prof2 && prof2.role) role = prof2.role
+            } catch (e) {
+                // tabla 'profiles' puede no existir; ignore
+            }
+        }
+
+        // 3) Si sigue sin role, verificar si existe entrada en admin_vault para este usuario
+        if (!role) {
+            try {
+                const { data: adminCheck, error: adminErr } = await supabase
+                    .from('admin_vault')
+                    .select('usuario_id')
+                    .eq('usuario_id', data.user.id)
+                    .limit(1)
+                if (!adminErr && adminCheck && adminCheck.length) role = 'admin'
+            } catch (e) {
+                // ignore
+            }
+        }
+
+        // 4) Último recurso: heurística por nombre/email (respaldo)
+        if (!role) {
+            if (nombreMeta.toLowerCase() === 'ithan' || String(data.user.email).toLowerCase().includes('ithan')) {
+                role = 'admin'
+            }
+        }
+
+        if (!role) role = 'client'
+
+        // Guardar en localStorage con role
         localStorage.setItem('1807_currentUser', JSON.stringify({
             id: data.user.id,
             email: data.user.email,
-            name: data.user.user_metadata?.nombre || email
+            name: nombreMeta || data.user.email,
+            role
         }))
-        
+
         return { success: true, data }
     } catch (error) {
         console.error('Error en login:', error.message)

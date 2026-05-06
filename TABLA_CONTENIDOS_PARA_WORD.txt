@@ -1,0 +1,175 @@
+================================================================================
+TABLA DE CONTENIDOS - 1807.ESTUDIO E-COMMERCE PLATFORM
+================================================================================
+Copiar esta tabla directamente a tu documento Word
+
+================================================================================
+CAPÍTULO I - INTRODUCCIÓN                                                    1
+
+1.1 Introducción                                                             1
+1.2 Antecedentes                                                             2
+1.3 Planteamiento del Problema                                               3
+    1.3.1 Situación Problemática                                             3
+    1.3.2 Objeto de Estudio                                                  4
+    1.3.3 Estudio de Soluciones                                              5
+    1.3.4 Preguntas de Investigación                                         6
+1.4 Objetivos de la Investigación                                            7
+    1.4.1 Objetivo General                                                   7
+    1.4.2 Objetivos Específicos                                              8
+1.5 Definición de Variables                                                  9
+1.6 Delimitación                                                            10
+    1.6.1 Límite Temporal                                                   10
+    1.6.2 Límite Geográfico                                                 11
+1.7 Justificación                                                           12
+    1.7.1 Justificación Técnica                                             12
+    1.7.2 Justificación Económica                                           13
+    1.7.3 Justificación Social                                              14
+1.8 Población y Muestra                                                     15
+1.9 Planificación del Proyecto                                              16
+    1.9.1 Hoja de Costos de Ejecución del Proyecto                          16
+    1.9.2 Cronograma de Trabajo                                             17
+    1.9.3 Plan de Trabajo para Elaboración del Trabajo de Grado             18
+    1.9.4 Diagrama de Gantt                                                 19
+
+CAPÍTULO II - MARCO TEÓRICO Y CONCEPTUAL                                   21
+
+2.1 Marco Referencial                                                       21
+    2.1.1 Importancia de los Datos                                          22
+        2.1.1.1 Gestión de Datos                                            23
+        2.1.1.2 Analítica de Datos                                          24
+        2.1.1.3 Sistema Gestor de Almacenamiento de Datos                   25
+2.2 Marco Conceptual                                                        26
+    2.2.1 Datos, Información y Conocimiento                                 26
+        2.2.1.1 Definición                                                  27
+        2.2.1.2 Protección de Datos                                         28
+    2.2.2 Sistemas de Información                                           29
+        2.2.2.1 Características y Funciones                                 30
+2.3 Marco Teórico                                                           31
+    2.3.1 Gestión de Proyectos                                              31
+    2.3.2 Metodología                                                       32
+        2.3.2.1 Tipos de Metodología                                        33
+    2.3.3 Base de Datos                                                     34
+        2.3.3.1 Tipos de Bases de Datos                                     35
+        2.3.3.2 Sistemas de Gestión de Bases de Datos                       36
+    2.3.4 Sistema Web                                                       37
+        2.3.4.1 Tipos de Sistemas Web                                       37
+        2.3.4.2 Lenguajes de Programación para Sistema Web                  38
+        2.3.4.3 Framework                                                   39
+    2.3.5 Análisis de Datos                                                 40
+        2.3.5.1 Herramientas para Análisis de Datos                         41
+        2.3.5.2 Tipos de Análisis de Datos                                  42
+        2.3.5.3 Tipo de Datos                                               43
+
+CAPÍTULO III - METODOLOGÍA DE INVESTIGACIÓN                                45
+
+3.1 Metodología SCRUM Aplicada al Proyecto                                 45
+    3.1.1 Principios SCRUM Adoptados                                        46
+    3.1.2 Roles SCRUM                                                       47
+    3.1.3 Artefactos SCRUM                                                  48
+        3.1.3.1 Product Backlog                                             48
+        3.1.3.2 Sprint Backlog                                              49
+        3.1.3.3 Incremento de Producto                                      50
+    3.1.4 Eventos SCRUM (Ceremonias)                                        51
+        3.1.4.1 Sprint Planning                                             51
+        3.1.4.2 Daily Standup                                               52
+        3.1.4.3 Sprint Review                                               53
+        3.1.4.4 Sprint Retrospective                                        54
+    3.1.5 Estructura de Sprints para el Proyecto                            55
+    3.1.6 Diagrama del Flujo SCRUM                                          56
+    3.1.8 Simulaciones Detalladas de Eventos SCRUM                          57
+        3.1.8.1 Simulación: Tres Scrum Diarios                              57
+        3.1.8.2 Simulación: Sprint Review                                   60
+        3.1.8.3 Simulación: Sprint Retrospective                            62
+    3.1.9 Conclusión de la Metodología Aplicada                             65
+    3.1.10 Evidencia de Mejora Continua                                     66
+3.2 Análisis y Diseño del Sistema                                           68
+    3.2.3 Modelado de Base de Datos                                         68
+
+CAPÍTULO IV - ANÁLISIS Y DISEÑO DEL SISTEMA                                71
+
+4.1 Análisis del Proceso de Registro de Información                         71
+    4.1.1 Reflexión de la Entrevista                                        71
+    4.1.2 Resultados de la Encuesta                                         72
+    4.1.3 Resultados de la Observación                                      73
+    4.1.4 Análisis de la Información                                        74
+        4.1.4.1 Puntos Fuertes de la Empresa                                74
+        4.1.4.2 Áreas por Mejorar                                           75
+4.2 Diseño de la Arquitectura del Sistema Web                               76
+    4.2.1 Requerimientos del Proyecto                                       77
+        4.2.1.1 Roles del Proyecto                                          77
+        4.2.1.2 Historias de Usuario                                        78
+        4.2.1.3 Requisitos Funcionales                                      80
+        4.2.1.4 Requisitos No Funcionales                                   82
+    4.2.2 Elección de Programas                                             83
+    4.2.3 Diagramas del Sistema                                             84
+        4.2.3.1 Diagrama de Casos de Uso                                    84
+        4.2.3.2 Diagrama de Arquitectura                                    85
+        4.2.3.3 Diagrama de Entidad-Relación                                86
+        4.2.3.4 Diagramas de Flujo                                          87
+        4.2.3.5 Diagramas de Despliegue                                     88
+    4.2.4 Diseño de los Mockups                                             89
+    4.2.5 Diseño de la Base de Datos                                        91
+        4.2.5.1 Diagrama de Clases                                          91
+        4.2.5.2 Realización del Diagrama en Workbench                       92
+4.3 Desarrollo del Sistema                                                  94
+    4.3.1 Elaboración de la Base de Datos                                   94
+        4.3.1.1 Creación de Tablas                                          94
+        4.3.1.2 Ingreso de Datos                                            96
+    4.3.2 Elaboración del Sistema                                           97
+        4.3.2.1 Elaboración del Front-End                                   97
+        4.3.2.2 Elaboración del Back-End                                   101
+        4.3.2.3 Funciones Extras de Registros                              104
+        4.3.2.4 Elaboración de Dashboards                                  106
+
+CAPÍTULO V - PRUEBAS Y VALIDACIÓN                                         110
+
+5.1 Pruebas del Sistema                                                    110
+    5.1.1 Resultados Positivos                                             111
+    5.1.2 Resultados Fallidos                                              114
+5.2 Arreglo del Sistema                                                    117
+    5.2.1 Correcciones de Errores del Sistema                              117
+5.3 Prueba de Usabilidad                                                   120
+    5.3.1 Prueba Moderada                                                  121
+    5.3.2 Experiencia del Usuario                                          123
+    5.3.3 Resultado Total de la Prueba                                     125
+5.4 Mejoras del Sistema                                                    126
+    5.4.1 Mejoras Finales                                                  126
+    5.4.2 Prueba de Rendimiento                                            129
+5.5 Prueba de Aceptación Final                                             131
+5.6 Sugerencias para Mantenimiento                                         134
+
+CAPÍTULO VI - CONCLUSIONES Y RECOMENDACIONES                              136
+
+6.1 Conclusiones                                                           136
+6.2 Recomendaciones                                                        139
+
+BIBLIOGRAFÍA                                                               142
+
+ANEXOS                                                                     145
+
+Anexo A: Diagramas del Sistema                                             145
+Anexo B: Código Fuente Seleccionado                                        178
+Anexo C: Manual de Usuario                                                 195
+Anexo D: Casos de Prueba Detallados                                        212
+
+================================================================================
+FIN DE LA TABLA DE CONTENIDOS
+================================================================================
+
+INSTRUCCIONES PARA COPIAR A WORD:
+
+1. Selecciona TODO el contenido de este archivo (Ctrl+A)
+2. Copia (Ctrl+C)
+3. Abre tu documento Word
+4. Pega en la página de Índice/Tabla de Contenidos (Ctrl+V)
+5. En Word, formatea con estilos de "Título" y "Subtítulo" según necesites
+6. Los números de página se actualizarán automáticamente si usas las referencias cruzadas de Word
+
+ALTERNATIVA CON TABULACIONES:
+Si prefieres una tabla con tabulación automática en Word:
+- Pega este contenido en Word
+- Selecciona TODO
+- Usa Tab para crear espacios entre el título y el número de página
+- Word lo convertirá automáticamente a una tabla de contenidos profesional
+
+================================================================================
