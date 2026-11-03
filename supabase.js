@@ -6,8 +6,8 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
 // Obtener variables de entorno
-const SUPABASE_URL = 'https://fohveedquqchtnzhkcyh.supabase.co'
-const SUPABASE_KEY = 'sb_publishable_iKFVLsKK586dZTdzWJY6Tw_bByu2jFO'
+const SUPABASE_URL = 'https://uuqvroetcbvlvseksujt.supabase.co'
+const SUPABASE_KEY = 'sb_publishable_oOGqA6VGOfIGj9FjxogioA_EMCytroD'
 
 // Crear cliente de Supabase
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)

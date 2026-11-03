@@ -198,7 +198,7 @@
     
     <script type="module">
         import { supabase, getProducts, getCategories } from './supabase.js'
-        import { initSupabase } from './init-supabase.js'
+        import { initSupabase } from './init-supabase.js?v=2'
         
         let connectionOK = false
         
@@ -226,7 +226,7 @@
             const result = await initSupabase()
             if (result.success) {
                 addLog('connectionLog', '✅ Conexión exitosa a Supabase', 'success')
-                addLog('connectionLog', 'URL: https://fohveedquqchtnzhkcyh.supabase.co', 'info')
+                addLog('connectionLog', 'URL: https://uuqvroetcbvlvseksujt.supabase.co', 'info')
                 setStatus('connectionStatus', 'success', '✅ Conectado')
                 connectionOK = true
             } else {

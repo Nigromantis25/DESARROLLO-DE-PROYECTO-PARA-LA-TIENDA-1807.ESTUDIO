@@ -3,11 +3,7 @@
  * Guarda contraseñas y datos sensibles en Supabase
  */
 
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
-
-const SUPABASE_URL = 'https://fohveedquqchtnzhkcyh.supabase.co'
-const SUPABASE_KEY = 'sb_publishable_iKFVLsKK586dZTdzWJY6Tw_bByu2jFO'
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+import { supabase } from './supabase.js'
 
 // ============================================
 // ENCRIPTACIÓN SIMPLE (Base64 + XOR)

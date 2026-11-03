@@ -14,13 +14,18 @@ const PORT = process.env.PORT || 3000;
 
 // Supabase
 const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY;
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error('SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY son obligatorias para el backend.');
+}
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 console.log('🚀 Iniciando servidor 1807.studio...');
 console.log('📡 Puerto:', PORT);
 console.log('🗄️ Supabase URL:', SUPABASE_URL ? 'Configurado' : 'No configurado');
-console.log('🔑 Supabase Key:', SUPABASE_KEY ? 'Presente' : 'Faltante');
+console.log('🔑 Supabase service role key: Configurada');
 
 // Middleware
 app.use(cors());

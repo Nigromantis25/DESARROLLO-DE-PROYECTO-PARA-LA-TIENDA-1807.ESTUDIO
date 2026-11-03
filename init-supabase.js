@@ -15,7 +15,7 @@ export async function initSupabase() {
         // Prueba simple de conexión
         const { data, error } = await supabase
             .from('producto')
-            .select('COUNT(*)', { count: 'exact', head: true })
+            .select('idproducto', { count: 'exact', head: true })
         
         if (error) {
             console.error('❌ Error de conexión:', error.message)
