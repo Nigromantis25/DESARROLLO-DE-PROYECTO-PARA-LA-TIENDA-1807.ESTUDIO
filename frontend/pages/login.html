@@ -452,8 +452,9 @@
         }
     </style>
     <script type="module">
-        import { signInUser } from '../assets/js/supabase.js'
+        import { signInUser, signUpUser } from '../assets/js/supabase.js'
         window._supabaseSignIn = signInUser
+        window._supabaseSignUp = signUpUser
     </script>
 </head>
 
@@ -569,6 +570,7 @@
         // Usuarios por defecto
         const defaultUsers = [
             { email: 'ithan', password: '1234', name: 'Administrador', role: 'admin' },
+            { email: 'reyner', password: '123456', name: 'reyner', role: 'admin' },
             { email: 'vendedor@1807.studio', password: 'vendedor123', name: 'Vendedor', role: 'vendedor' },
             { email: 'usuario@1807.studio', password: 'usuario123', name: 'Usuario', role: 'usuario' }
         ];
@@ -584,8 +586,14 @@
                 // Eliminar el antiguo admin si existía y agregar a ithan
                 currentLocalUsers = currentLocalUsers.filter(u => u.role !== 'admin');
                 currentLocalUsers.push({ email: 'ithan', password: '1234', name: 'Administrador', role: 'admin' });
-                localStorage.setItem('1807_users', JSON.stringify(currentLocalUsers));
             }
+
+            const hasReyner = currentLocalUsers.find(u => u.email === 'reyner');
+            if (!hasReyner) {
+                currentLocalUsers.push({ email: 'reyner', password: '123456', name: 'reyner', role: 'admin' });
+            }
+
+            localStorage.setItem('1807_users', JSON.stringify(currentLocalUsers));
         }
 
         function switchTab(tab) {
@@ -611,8 +619,10 @@
             if (window._supabaseSignIn) {
                 const res = await window._supabaseSignIn(email, password);
                 if (res.success) {
-                    const currentUser = JSON.parse(localStorage.getItem('1807_currentUser') || '{}');
-                    if (currentUser.role === 'admin') {
+                    const metadataRole = res.data?.user?.user_metadata?.role;
+                    const storedUser = JSON.parse(localStorage.getItem('1807_currentUser') || '{}');
+                    const role = metadataRole || storedUser.role;
+                    if (role === 'admin') {
                         window.location.href = '../index.html';
                         return;
                     } else {
@@ -642,9 +652,11 @@
             }
         }
 
-        function handleRegister(e) {
+        async function handleRegister(e) {
             e.preventDefault();
-            const name = document.getElementById('regName').value + ' ' + document.getElementById('regLastName').value;
+            const firstName = document.getElementById('regName').value.trim();
+            const lastName = document.getElementById('regLastName').value.trim();
+            const name = `${firstName} ${lastName}`.trim();
             const email = document.getElementById('regEmail').value;
             const password = document.getElementById('regPassword').value;
             const roleInput = document.querySelector('input[name="regRole"]');
@@ -660,6 +672,23 @@
                 errorEl.style.display = 'block';
                 successEl.style.display = 'none';
                 return;
+            }
+
+            if (window._supabaseSignUp) {
+                const supabaseResult = await window._supabaseSignUp(
+                    email,
+                    password,
+                    firstName,
+                    lastName,
+                    ''
+                );
+
+                if (!supabaseResult.success) {
+                    errorEl.textContent = `No se pudo registrar en Supabase: ${supabaseResult.error}`;
+                    errorEl.style.display = 'block';
+                    successEl.style.display = 'none';
+                    return;
+                }
             }
 
             users.push({ email, password, name, role });

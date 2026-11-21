@@ -16,18 +16,37 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 // FUNCIONES DE AUTENTICACIÓN
 // ============================================
 
-export async function signUpUser(email, password, nombre) {
+export async function signUpUser(email, password, nombre, apellidoP = '', apellidoM = '') {
     try {
         const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,
             options: {
                 data: {
-                    nombre: nombre
+                    nombre: nombre,
+                    apellido_p: apellidoP,
+                    apellido_m: apellidoM,
+                    role: 'usuario'
                 }
             }
         })
         if (error) throw error
+
+        if (data.user) {
+            const { error: profileError } = await supabase
+                .from('usuario')
+                .upsert([{
+                    idusuario: data.user.id,
+                    nombre: nombre,
+                    apellido_p: apellidoP || null,
+                    apellido_m: apellidoM || null,
+                    correo: email,
+                    estado: 1
+                }], { onConflict: 'idusuario' })
+
+            if (profileError) throw profileError
+        }
+
         return { success: true, data }
     } catch (error) {
         console.error('Error en registro:', error.message)
@@ -37,8 +56,15 @@ export async function signUpUser(email, password, nombre) {
 
 export async function signInUser(email, password) {
     try {
+        const loginAliases = {
+            'reyner': 'reyner@1807.studio',
+            'ithan': 'ithan@1807.studio'
+        }
+        const loginValue = String(email).trim().toLowerCase()
+        const loginEmail = loginAliases[loginValue] || email
+
         const { data, error } = await supabase.auth.signInWithPassword({
-            email: email,
+            email: loginEmail,
             password: password
         })
         if (error) throw error
