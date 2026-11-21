@@ -452,7 +452,7 @@
         }
     </style>
     <script type="module">
-        import { signInUser } from './supabase.js'
+        import { signInUser } from '../assets/js/supabase.js'
         window._supabaseSignIn = signInUser
     </script>
 </head>
@@ -613,7 +613,7 @@
                 if (res.success) {
                     const currentUser = JSON.parse(localStorage.getItem('1807_currentUser') || '{}');
                     if (currentUser.role === 'admin') {
-                        window.location.href = 'index.html';
+                        window.location.href = '../index.html';
                         return;
                     } else {
                         window.location.href = 'tienda.html';
@@ -632,7 +632,7 @@
             if (user) {
                 localStorage.setItem('1807_currentUser', JSON.stringify(user));
                 if (user.role === 'admin') {
-                    window.location.href = 'index.html';
+                    window.location.href = '../index.html';
                 } else {
                     window.location.href = 'tienda.html';
                 }
@@ -692,7 +692,7 @@
                 localStorage.setItem('1807_currentUser', JSON.stringify(user));
 
                 if (role === 'admin') {
-                    window.location.href = 'index.html';
+                    window.location.href = '../index.html';
                 } else {
                     window.location.href = 'tienda.html';
                 }

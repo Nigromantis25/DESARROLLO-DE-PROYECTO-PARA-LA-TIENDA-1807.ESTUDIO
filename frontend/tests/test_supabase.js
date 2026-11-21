@@ -3,7 +3,7 @@
 // ============================================
 
 // 1. Importar funciones
-import { getProducts, getCategories, getBrands } from './supabase.js'
+import { getProducts, getCategories, getBrands } from '../assets/js/supabase.js'
 
 // 2. Función de prueba
 async function testSupabase() {

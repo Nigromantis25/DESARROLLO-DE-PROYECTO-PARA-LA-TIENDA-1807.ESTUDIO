@@ -113,7 +113,7 @@ REM ============================================
 
 echo [4/5] Verificando configuración Supabase...
 
-if exist "supabase.js" (
+if exist "frontend\assets\js\supabase.js" (
     echo ✅ Archivo supabase.js detectado
     echo ℹ️  Las credenciales de Supabase están configuradas
 ) else (
@@ -171,10 +171,11 @@ echo    • Espera: "✅ Servidor 1807.studio corriendo en puerto 3000"
 echo.
 echo 4️⃣  Ejecutar Frontend (Terminal 2):
 echo    • Abre PowerShell en la carpeta del proyecto
+echo    • cd frontend
 echo    • python -m http.server 8000
 echo.
 echo 5️⃣  Abrir en navegador:
-echo    • http://localhost:8000/chatbot-inteligente.html
+echo    • http://localhost:8000/pages/chatbot-inteligente.html
 echo.
 echo 📖 Guía completa: CHATBOT_INTELIGENTE_GUIA.md
 echo.

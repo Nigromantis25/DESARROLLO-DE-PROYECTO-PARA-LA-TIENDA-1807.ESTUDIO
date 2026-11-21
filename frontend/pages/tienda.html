@@ -1175,7 +1175,7 @@
                     <div id="userRole" style="font-size:.7rem;color:var(--gold)">Cliente</div>
                 </div>
             </div>
-            <a href="index.html" class="btn btn-outline" id="adminLink" style="display:none">📊 Dashboard</a>
+            <a href="../index.html" class="btn btn-outline" id="adminLink" style="display:none">📊 Dashboard</a>
             <button class="btn btn-outline" onclick="logout()">🚪 Salir</button>
         </div>
     </header>
@@ -1663,11 +1663,11 @@
     <!-- Supabase Configuration -->
     <script type="module">
         // Importar todas las funciones de Supabase
-        export { supabase, signUpUser, signInUser, signOutUser, getProducts, getProductById, getProductsByCategory, addToCart, getCartItems, removeFromCart, createOrder, getOrders, getCategories, getBrands, subscribeToProductChanges, subscribeToCartChanges } from './supabase.js'
+        export { supabase, signUpUser, signInUser, signOutUser, getProducts, getProductById, getProductsByCategory, addToCart, getCartItems, removeFromCart, createOrder, getOrders, getCategories, getBrands, subscribeToProductChanges, subscribeToCartChanges } from '../assets/js/supabase.js'
     </script>
 
     <!-- Chatbot Mejorado -->
-    <script type="module" src="chatbot.js"></script>
+    <script type="module" src="../assets/js/chatbot.js"></script>
 </body>
 
 </html>

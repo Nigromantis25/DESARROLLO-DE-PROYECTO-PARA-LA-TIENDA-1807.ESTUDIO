@@ -7,7 +7,7 @@
     <meta name="description"
         content="1807.studio - Sistema de gestión y venta de bolsos exclusivos. Dashboard administrativo profesional.">
     <title>1807.studio | Dashboard - Sistema de Ventas</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👜</text></svg>">
 </head>
@@ -36,7 +36,7 @@
                 </svg>
                 <span class="notification-badge" id="notificationBadge">0</span>
             </div>
-            <a href="tienda.html" class="btn btn-secondary" style="margin-right: 0.5rem;">🛒 Tienda</a>
+            <a href="pages/tienda.html" class="btn btn-secondary" style="margin-right: 0.5rem;">🛒 Tienda</a>
             <div class="navbar-user" id="navbarUser">
                 <div class="user-avatar" id="navUserAvatar">AD</div>
                 <span class="user-name" id="navUserName">Admin</span>
@@ -496,16 +496,16 @@
     <!-- Supabase Configuration -->
     <script type="module">
         // Importar todas las funciones de Supabase
-        export { supabase, signUpUser, signInUser, signOutUser, getProducts, getProductById, getProductsByCategory, addToCart, getCartItems, removeFromCart, createOrder, getOrders, getCategories, getBrands, subscribeToProductChanges, subscribeToCartChanges } from './supabase.js'
+        export { supabase, signUpUser, signInUser, signOutUser, getProducts, getProductById, getProductsByCategory, addToCart, getCartItems, removeFromCart, createOrder, getOrders, getCategories, getBrands, subscribeToProductChanges, subscribeToCartChanges } from './assets/js/supabase.js'
     </script>
 
     <!-- Test Script (solo para desarrollo) -->
-    <script type="module" src="test_supabase.js"></script>
+    <script type="module" src="tests/test_supabase.js"></script>
 
     <!-- Chatbot Mejorado -->
-    <script type="module" src="chatbot.js"></script>
+    <script type="module" src="assets/js/chatbot.js"></script>
 
-    <script src="app.js"></script>
+    <script src="assets/js/app.js"></script>
 </body>
 
 </html>

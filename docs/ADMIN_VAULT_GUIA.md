@@ -34,18 +34,18 @@ Sistema seguro de almacenamiento de contraseñas y datos de administrador que:
 
 ### Paso 2: Agregar Admin Vault al Login
 
-1. **Abre:** `login.html`
+1. **Abre:** `frontend/pages/login.html`
 2. **Busca:** la línea después del login exitoso
 3. **Agrega un enlace al Admin Vault en el dashboard**
 
 ```html
 <!-- Agregar esto en el dashboard -->
-<a href="admin-vault.html" class="nav-link">🔐 Admin Vault</a>
+<a href="pages/admin-vault.html" class="nav-link">🔐 Admin Vault</a>
 ```
 
 ### Paso 3: Verificar Acceso
 
-1. **Abre en navegador:** `http://localhost:8000/admin-vault.html`
+1. **Abre en navegador:** `http://localhost:8000/pages/admin-vault.html`
 2. **Deberías ver login (si no estás autenticado)**
 3. **Loguéate con tu cuenta admin**
 4. **¡Verás el Admin Vault!**
@@ -64,7 +64,7 @@ Sistema seguro de almacenamiento de contraseñas y datos de administrador que:
 
 2. **En tu celular, abre el navegador:**
    ```
-   http://192.168.1.100:8000/admin-vault.html
+   http://192.168.1.100:8000/pages/admin-vault.html
    ```
 
 3. **El panel se adapta automáticamente al tamaño de pantalla**
@@ -150,30 +150,6 @@ Estos datos se guardan en Supabase y se sincronizan en todos los dispositivos.
 
 ### Cómo Funciona
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                 CONTRASEÑA                              │
-│            (En texto plano)                             │
-└──────────────────┬──────────────────────────────────────┘
-                   │
-                   ▼
-        ┌──────────────────────┐
-        │   Encriptación       │
-        │   (Base64 + XOR)     │
-        └──────────────┬───────┘
-                       │
-                       ▼
-        ┌──────────────────────────┐
-        │ datos_encriptados:       │
-        │ "eyJ1c2VybmFtZSI6Ic..."  │
-        └──────────────┬───────────┘
-                       │
-                       ▼
-        ┌────────────────────────────┐
-        │  Supabase PostgreSQL       │
-        │  (Base de datos segura)    │
-        └────────────────────────────┘
-```
 
 ### Protecciones
 
@@ -187,8 +163,8 @@ Estos datos se guardan en Supabase y se sincronizan en todos los dispositivos.
 ## 📊 Archivos Incluidos
 
 ```
-admin-vault.js              ← Lógica de encriptación
-admin-vault.html            ← Interfaz responsiva
+frontend/assets/js/admin-vault.js ← Lógica de encriptación
+frontend/pages/admin-vault.html   ← Interfaz responsiva
 database/admin_vault_tables.sql  ← Tablas Supabase
 ```
 
@@ -200,7 +176,7 @@ database/admin_vault_tables.sql  ← Tablas Supabase
 
 **Solución:**
 ```
-1. Verifica estar logueado en login.html
+1. Verifica estar logueado en frontend/pages/login.html
 2. Los datos se guardan en localStorage
 3. Si borras localStorage, debes loguear de nuevo
 ```
@@ -267,7 +243,7 @@ Clickea: 💾 Guardar
 ```
 1. En PC: ipconfig → obtén IP (ej: 192.168.1.100)
 2. En móvil: abre navegador
-3. Escribe: http://192.168.1.100:8000/admin-vault.html
+3. Escribe: http://192.168.1.100:8000/pages/admin-vault.html
 4. Se adapta automáticamente a pantalla pequeña
 5. Toca "+ Agregar" con el dedo
 6. ¡Guarda contraseñas desde el celular!
@@ -296,7 +272,7 @@ EN PC:
 - Se guarda en tabla admin_vault
 
 EN MÓVIL:
-- Abres admin-vault.html
+- Abres frontend/pages/admin-vault.html
 - Se carga desde Supabase
 - Ves la misma contraseña Gmail
 - Todo automático ✅
@@ -364,8 +340,5 @@ EN MÓVIL:
 
 **¡Tu sistema seguro de almacenamiento estará listo en minutos!** 🎉
 
----
 
-**Versión:** 1.0
-**Última actualización:** Abril 2026
-**Para:** 1807.studio
+

@@ -112,12 +112,14 @@ Write-Host "    → Espera: 🚀 Servidor corriendo en puerto 3000" -ForegroundC
 Write-Host ""
 
 Write-Host "    TERMINAL 2 (Frontend):" -ForegroundColor White
+Write-Host "    $ cd frontend" -ForegroundColor Gray
+Write-Host "    $ cd frontend" -ForegroundColor Gray
 Write-Host "    $ python -m http.server 8000" -ForegroundColor Gray
 Write-Host "    → Espera: Serving HTTP on..." -ForegroundColor Gray
 Write-Host ""
 
 Write-Host "4️⃣  Abre en navegador:" -ForegroundColor White
-Write-Host "    http://localhost:8000/chatbot-inteligente.html" -ForegroundColor Cyan
+Write-Host "    http://localhost:8000/pages/chatbot-inteligente.html" -ForegroundColor Cyan
 Write-Host ""
 
 Write-Host "📖 Guía completa: CHATBOT_INTELIGENTE_GUIA.md" -ForegroundColor Gray

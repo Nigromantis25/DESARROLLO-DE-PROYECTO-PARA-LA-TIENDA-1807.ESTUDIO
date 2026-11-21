@@ -10,12 +10,12 @@ let currentUser = JSON.parse(localStorage.getItem('1807_currentUser'));
 
 // Verificar si el usuario está autenticado y es admin
 if (!currentUser || currentUser.role !== 'admin') {
-    window.location.href = 'login.html';
+    window.location.href = 'pages/login.html';
 }
 
 function logout() {
     localStorage.removeItem('1807_currentUser');
-    window.location.href = 'login.html';
+    window.location.href = 'pages/login.html';
 }
 
 function loadUserInfo() {
